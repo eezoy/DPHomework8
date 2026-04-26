@@ -1,8 +1,7 @@
 package com.narxoz.rpg.floor;
 
-import com.narxoz.rpg.combatant.Hero;
-import com.narxoz.rpg.combatant.Monster;
-import com.narxoz.rpg.state.StunnedState;
+import com.narxoz.rpg.combatant.*;
+import com.narxoz.rpg.state.*;
 
 import java.util.*;
 
@@ -58,6 +57,11 @@ public class CombatFloor extends TowerFloor {
                     if (monster.getAttackPower() >= 12 && hero.getHp() < hero.getMaxHp() * 0.4 && !(hero.getState() instanceof StunnedState)) {
                         System.out.println("  The blow stuns " + hero.getName() + "!");
                         hero.setState(new StunnedState());
+                    } 
+                    
+                    else if (hero.getHp() < hero.getMaxHp() * 0.3 && !(hero.getState() instanceof BerserkState) && !(hero.getState() instanceof StunnedState)) {
+                        System.out.println("  " + hero.getName() + " is close to death and enters a rage!");
+                        hero.setState(new BerserkState());
                     }
                 }
             }

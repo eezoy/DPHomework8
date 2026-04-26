@@ -1,17 +1,43 @@
 package com.narxoz.rpg;
 
-/**
- * Entry point for Homework 8 — The Haunted Tower: Ascending the Floors.
- *
- * Build your heroes, floors, tower runner, and execute the climb here.
- */
-public class Main {
+import com.narxoz.rpg.combatant.*;
+import com.narxoz.rpg.floor.*;
+import com.narxoz.rpg.state.*;
+import com.narxoz.rpg.tower.*;
 
+import java.util.*;
+
+public class Main {
     public static void main(String[] args) {
-        // TODO (student): Create at least 2 heroes with different starting states
-        // TODO (student): Create a sequence of ≥ 4 floors using ≥ 3 distinct floor subclasses
-        // TODO (student): Instantiate a tower runner and execute the tower climb
-        // TODO (student): Track and print results (floors cleared, heroes surviving, tower status)
-        // TODO (student): Demonstrate visible state transitions in the output
+
+        Hero knight = new Hero("Mega Knight", 120, 18, 15);
+        Hero warlock = new Hero("Dark Warlock", 90, 22, 5, new PoisonedState(2));
+
+        List<Hero> party = new ArrayList<>();
+        party.add(knight);
+        party.add(warlock);
+
+        List<TowerFloor> floors = new ArrayList<>();
+        floors.add(new TrapFloor("Spike Corridor", 15));
+        floors.add(new RestFloor("Abandoned Chapel", 25));
+        floors.add(new CombatFloor("Guard Room", new Monster("Skeleton Guard", 85, 12)));
+        floors.add(new CombatFloor("Tower Summit", new Monster("Wraith Lord", 150, 17)));
+
+        TowerRunner runner = new TowerRunner(floors);
+
+        System.out.println("========== PARTY ==========");
+        for (Hero hero : party) {
+            System.out.println("  " + hero.getName() + " | HP: " + hero.getHp() + "/" + hero.getMaxHp() + " | ATK: " + hero.getAttackPower() + " | DEF: " + hero.getDefense() + " | State: " + hero.getState().getName());
+        }
+        System.out.println("===========================");
+
+        TowerRunResult result = runner.run(party);
+
+        System.out.println("========== TOWER RUN COMPLETE ==========");
+        System.out.println("Floors cleared : " + result.getFloorsCleared() + " / " + floors.size());
+        System.out.println("Heroes surviving: " + result.getHeroesSurviving());
+        System.out.println("Reached the top : " + (result.isReachedTop() ? "Yes" : "No"));
+        System.out.println("========================================");
     }
 }
+
