@@ -4,7 +4,7 @@ import com.narxoz.rpg.combatant.Hero;
 import com.narxoz.rpg.combatant.Monster;
 import com.narxoz.rpg.state.StunnedState;
 
-import java.util.List;
+import java.util.*;
 
 public class CombatFloor extends TowerFloor {
 
@@ -74,7 +74,7 @@ public class CombatFloor extends TowerFloor {
         else {
             summary = "Party wiped on " + floorName + ".";
         }
-        
+
         return new FloorResult(cleared, totalDamage, summary);
     }
 
