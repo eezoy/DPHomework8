@@ -49,19 +49,20 @@ public class CombatFloor extends TowerFloor {
             if (monster.isAlive()) {
                 for (Hero hero : party) {
                     if (!hero.isAlive()) continue;
+                    int hpBefore = hero.getHp();
                     monster.attack(hero);
-                    int dmgDealt = Math.max(1, monster.getAttackPower() - 2);
+                    int dmgDealt = hpBefore - hero.getHp();
                     totalDamage += dmgDealt;
                     System.out.println("  " + monster.getName() + " hits " + hero.getName() + " for " + dmgDealt + " damage. (" + hero.getHp() + " HP left)");
 
-                    if (monster.getAttackPower() >= 12 && hero.getHp() < hero.getMaxHp() * 0.4 && !(hero.getState() instanceof StunnedState)) {
-                        System.out.println("  The blow stuns " + hero.getName() + "!");
-                        hero.setState(new StunnedState());
-                    } 
-                    
-                    else if (hero.getHp() < hero.getMaxHp() * 0.3 && !(hero.getState() instanceof BerserkState) && !(hero.getState() instanceof StunnedState)) {
+                    if (hero.getHp() > 0 && hero.getHp() < hero.getMaxHp() * 0.3 && !(hero.getState() instanceof BerserkState) && !(hero.getState() instanceof StunnedState)) {
                         System.out.println("  " + hero.getName() + " is close to death and enters a rage!");
                         hero.setState(new BerserkState());
+                    } 
+                    
+                    else if (monster.getAttackPower() >= 12 && hero.getHp() < hero.getMaxHp() * 0.4 && !(hero.getState() instanceof BerserkState) && !(hero.getState() instanceof StunnedState)) {
+                        System.out.println("  The blow stuns " + hero.getName() + "!");
+                        hero.setState(new StunnedState());
                     }
                 }
             }
@@ -87,7 +88,11 @@ public class CombatFloor extends TowerFloor {
         if (result.isCleared()) {
             System.out.println("The party finds a small health potion.");
             for (Hero hero : party) {
-                if (hero.isAlive()) hero.heal(10);
+                if (hero.isAlive()) {
+                    int before = hero.getHp();
+                    hero.heal(10);
+                    System.out.println("  " + hero.getName() + " recovers " + (hero.getHp() - before) + " HP. (" + hero.getHp() + " HP)");
+                }
             }
         }
     }

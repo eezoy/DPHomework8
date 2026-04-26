@@ -20,8 +20,8 @@ public class Main {
         List<TowerFloor> floors = new ArrayList<>();
         floors.add(new TrapFloor("Spike Corridor", 15));
         floors.add(new RestFloor("Abandoned Chapel", 25));
-        floors.add(new CombatFloor("Guard Room", new Monster("Skeleton Guard", 85, 12)));
-        floors.add(new CombatFloor("Tower Summit", new Monster("Wraith Lord", 150, 17)));
+        floors.add(new CombatFloor("Guard Room", new Monster("Skeleton Guard", 100, 15)));
+        floors.add(new CombatFloor("Tower Summit", new Monster("Wraith Lord", 180, 17)));
 
         TowerRunner runner = new TowerRunner(floors);
 
